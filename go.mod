@@ -1,4 +1,4 @@
-module EZGracefullyShutdown
+module github.com/shuangrain/EZGracefullyShutdown
 
 go 1.14
 

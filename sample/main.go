@@ -1,9 +1,9 @@
 package main
 
 import (
-	ez "EZGracefullyShutdown/src"
 	"context"
 	"fmt"
+	ez "github.com/shuangrain/EZGracefullyShutdown/src"
 	"log"
 	"net/http"
 	"os"
