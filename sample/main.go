@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	ez "github.com/shuangrain/EZGracefullyShutdown/src"
+	"github.com/shuangrain/EZGracefullyShutdown"
 	"log"
 	"net/http"
 	"os"

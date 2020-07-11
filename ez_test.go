@@ -1,4 +1,4 @@
-package ez_gracefully_shutdown
+package ez
 
 import (
 	"context"

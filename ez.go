@@ -1,8 +1,7 @@
-package ez_gracefully_shutdown
+package ez
 
 import (
 	"context"
-	"log"
 	"os"
 	"os/signal"
 	"sync"
@@ -11,10 +10,13 @@ import (
 )
 
 type Hook func(ctx context.Context)
+type ILogger interface {
+	Println(v ...interface{})
+}
 
 var signalChannel = make(chan os.Signal)
 
-func WaitGracefullyShutdown(logger *log.Logger, timeout time.Duration, hooks ...Hook) {
+func WaitGracefullyShutdown(logger ILogger, timeout time.Duration, hooks ...Hook) {
 	signal.Notify(signalChannel, syscall.SIGINT, syscall.SIGTERM)
 
 	logger.Println("Waiting system shutdown event...")
@@ -31,17 +33,12 @@ func WaitGracefullyShutdown(logger *log.Logger, timeout time.Duration, hooks ...
 		}(hook)
 	}
 
-	isGraceful := false
 	go func() {
 		wg.Wait()
 		cancel()
 		logger.Println("All the hooks executed done.")
-		isGraceful = true
 	}()
 
 	<-ctx.Done()
-	if !isGraceful {
-		logger.Println("One of the hooks had timeout or unhandled context.")
-	}
 	logger.Println("The application will shutdown...")
 }
